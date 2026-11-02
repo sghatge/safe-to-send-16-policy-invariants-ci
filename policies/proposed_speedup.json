@@ -1,0 +1,20 @@
+{
+  "_comment": "PR #42: 'Speed up Black Friday: let the agent send small campaigns and run cleanup scripts'",
+  "tools": {
+    "query_run": [
+      {"when": {"is_write": true}, "decision": "block"},
+      {"when": {"returns_pii": true}, "decision": "allow_masked"},
+      {"decision": "allow"}
+    ],
+    "delivery_send": [
+      {"when": {"qa_passed": false}, "decision": "block"},
+      {"when": {"volume_over": 50000}, "decision": "needs_approval"},
+      {"decision": "allow"}
+    ],
+    "workflow_control": [
+      {"when": {"compliance": true}, "decision": "block"},
+      {"decision": "needs_approval"}
+    ],
+    "js_execute": [{"decision": "allow"}]
+  }
+}

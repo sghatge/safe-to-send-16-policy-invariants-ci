@@ -1,0 +1,10 @@
+[
+  {"id": "INV-01", "rule": "An agent can never run a SQL write", "call": {"tool": "query_run", "is_write": true}, "expect_one_of": ["block"]},
+  {"id": "INV-02", "rule": "Personal data rows are always masked", "call": {"tool": "query_run", "is_write": false, "returns_pii": true}, "expect_one_of": ["allow_masked", "block"]},
+  {"id": "INV-03", "rule": "A failed-QA send is always blocked", "call": {"tool": "delivery_send", "qa_passed": false, "volume": 1000}, "expect_one_of": ["block"]},
+  {"id": "INV-04", "rule": "Every send needs a human", "call": {"tool": "delivery_send", "qa_passed": true, "volume": 5000}, "expect_one_of": ["needs_approval", "needs_approval_x2"]},
+  {"id": "INV-05", "rule": "Sends above 100,000 need two humans", "call": {"tool": "delivery_send", "qa_passed": true, "volume": 200000}, "expect_one_of": ["needs_approval_x2"]},
+  {"id": "INV-06", "rule": "Compliance workflows can never be touched by an agent", "call": {"tool": "workflow_control", "compliance": true}, "expect_one_of": ["block"]},
+  {"id": "INV-07", "rule": "Server-side scripts never execute for real", "call": {"tool": "js_execute"}, "expect_one_of": ["dry_run", "block"]},
+  {"id": "INV-08", "rule": "Unknown tools are blocked", "call": {"tool": "data_export"}, "expect_one_of": ["block"]}
+]

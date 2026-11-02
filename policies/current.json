@@ -1,0 +1,19 @@
+{
+  "tools": {
+    "query_run": [
+      {"when": {"is_write": true}, "decision": "block"},
+      {"when": {"returns_pii": true}, "decision": "allow_masked"},
+      {"decision": "allow"}
+    ],
+    "delivery_send": [
+      {"when": {"qa_passed": false}, "decision": "block"},
+      {"when": {"volume_over": 100000}, "decision": "needs_approval_x2"},
+      {"decision": "needs_approval"}
+    ],
+    "workflow_control": [
+      {"when": {"compliance": true}, "decision": "block"},
+      {"decision": "needs_approval"}
+    ],
+    "js_execute": [{"decision": "dry_run"}]
+  }
+}
